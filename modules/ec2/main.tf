@@ -1,6 +1,5 @@
-#############################################
+
 # Get Latest Amazon Linux AMI
-#############################################
 
 data "aws_ami" "amazon_linux" {
   most_recent = true
@@ -12,9 +11,8 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-#############################################
+
 # Security Group - Add SSH Ingress Rule
-#############################################
 
 resource "aws_security_group" "this" {
   name        = "${var.environment}-ec2-sg"
@@ -44,9 +42,8 @@ resource "aws_security_group" "this" {
   })
 }
 
-#############################################
+
 # IAM Role for SSM Access
-#############################################
 
 resource "aws_iam_role" "ec2_role" {
   name = "${var.environment}-ec2-role"
@@ -66,6 +63,7 @@ resource "aws_iam_role" "ec2_role" {
 }
 
 # Attach AWS Managed Policy for SSM
+
 resource "aws_iam_role_policy_attachment" "ssm" {
   role       = aws_iam_role.ec2_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
@@ -76,9 +74,8 @@ resource "aws_iam_instance_profile" "this" {
   role = aws_iam_role.ec2_role.name
 }
 
-#############################################
+
 # EC2 Instance (Private Subnet Only)
-#############################################
 
 resource "aws_instance" "this" {
   ami                    = data.aws_ami.amazon_linux.id

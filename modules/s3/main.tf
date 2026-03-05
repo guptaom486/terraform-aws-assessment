@@ -1,6 +1,5 @@
-#############################################
-# S3 Bucket for Application Logs
-#############################################
+
+# S3 Bucket 
 
 resource "aws_s3_bucket" "this" {
   bucket = var.bucket_name
@@ -11,9 +10,8 @@ resource "aws_s3_bucket" "this" {
   })
 }
 
-#############################################
-# Block Public Access (IMPORTANT)
-#############################################
+
+# Block Public Access
 
 resource "aws_s3_bucket_public_access_block" "this" {
   bucket = aws_s3_bucket.this.id
@@ -24,9 +22,8 @@ resource "aws_s3_bucket_public_access_block" "this" {
   restrict_public_buckets = true
 }
 
-#############################################
+
 # Enable Versioning
-#############################################
 
 resource "aws_s3_bucket_versioning" "this" {
   bucket = aws_s3_bucket.this.id
@@ -36,9 +33,7 @@ resource "aws_s3_bucket_versioning" "this" {
   }
 }
 
-#############################################
 # Enable Server-Side Encryption
-#############################################
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
   bucket = aws_s3_bucket.this.id
